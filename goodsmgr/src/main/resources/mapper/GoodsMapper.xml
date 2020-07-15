@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maben.dao.GoodsDAO">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    <insert id="create" parameterType="GoodsModel">
+        INSERT INTO `tbl_goods` (`uuid`, `name`, `imgPath`, `description`)
+        VALUES (#{uuid}, #{name}, #{imgPath}, #{description});
+    </insert>
+    <update id="update" parameterType="GoodsModel">
+        UPDATE `tbl_goods`
+        SET
+            `name`=#{name},
+            `imgPath`=#{imaPath},
+            `description`=#{description}
+        WHERE uuid = #{uuid};
+    </update>
+    <delete id="delete" parameterType="int">
+        delete
+        from tbl_goods
+        where uuid = #{uuid}
+    </delete>
+
+    <select id="getByUuid" parameterType="int" resultType="GoodsModel">
+        select *
+        from tbl_goods
+        where uuid = #{uuid}
+    </select>
+    <select id="getByConditionPage" parameterType="GoodsQueryModel" resultType="GoodsModel">
+        select * from tbl_goods
+        <where>
+            <if test="uuid!=null &amp;&amp; uuid > 0">
+                and uuid=#{uuid}
+            </if>
+        </where>
+    </select>
+</mapper>

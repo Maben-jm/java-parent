@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+       <groupId>com.maben</groupId>
+	<artifactId>java-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>pweb</artifactId>
+    <packaging>war</packaging>
+
+    <name>pweb Maven Webapp</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>customermgr</artifactId>
+            <groupId>com.maben</groupId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <artifactId>goodsmgrweb</artifactId>
+            <groupId>com.maben</groupId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <artifactId>cartmgr</artifactId>
+            <groupId>com.maben</groupId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <artifactId>storemgr</artifactId>
+            <groupId>com.maben</groupId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <artifactId>ordermgr</artifactId>
+            <groupId>com.maben</groupId>
+            <version>${version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>pweb</finalName>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <!--自己的web应用-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <overlays>
+                            <!--这里的顺序会决定如果出现冲突的文件会优先使用的顺序,但通常会使用不同的文件夹来区分-->
+                            <overlay>
+                                <artifactId>customermgr</artifactId>
+                                <groupId>com.maben</groupId>
+                            </overlay>
+                            <overlay>
+                                <artifactId>goodsmgrweb</artifactId>
+                                <groupId>com.maben</groupId>
+                            </overlay>
+                            <overlay>
+                                <artifactId>cartmgr</artifactId>
+                                <groupId>com.maben</groupId>
+                            </overlay>
+                            <overlay>
+                                <artifactId>storemgr</artifactId>
+                                <groupId>com.maben</groupId>
+                            </overlay>
+                            <overlay>
+                                <artifactId>ordermgr</artifactId>
+                                <groupId>com.maben</groupId>
+                            </overlay>
+                        </overlays>
+                    </configuration>
+                </plugin>
+                <!--内置jetty-->
+                <plugin>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>8.1.14.v20131031</version>
+                    <configuration>
+                        <scanIntervalSeconds>10</scanIntervalSeconds>
+                        <stopPort>9999</stopPort>
+                        <webAppConfig>
+                            <contextPath>/</contextPath>
+                        </webAppConfig>
+                        <connectors>
+                            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                                <port>9080</port>
+                                <maxIdleTime>60000</maxIdleTime>
+                            </connector>
+                        </connectors>
+                    </configuration>
+                </plugin>
+
+
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
